@@ -2,10 +2,15 @@
 % Please edit documentation in R/run_app.R
 \name{run_app}
 \alias{run_app}
-\title{run the Shiny Application}
+\title{Run the Shiny Application}
 \usage{
-run_app()
+run_app(data = NULL, embed_url = "https://shiny.inndx.com/inndxweb-embed")
+}
+\arguments{
+\item{data}{list as returned by \code{\link{crawl_inndxweb}}, otherwise uses database.}
+
+\item{embed_url}{Base URL of \code{\link{run_embeds}} app.}
 }
 \description{
-run the Shiny Application
+Run the dashboard
 }
