@@ -41,7 +41,7 @@ app_ui <- function() {
             active = TRUE,
             swipeable = TRUE,
             waiter::waiter_show_on_load(loader, color = "#000"),
-            h2("Home Page", class = "center"),
+            #h2("Home Page", class = "center"),
             #p(tags$small("Data on China and the rest of the World."), class = "center"),
             f7Row(
               f7Col(
@@ -50,106 +50,22 @@ app_ui <- function() {
               f7Col(
                 mod_count_ui("count_ui_2", "Recon Items")
               ),
-              f7Col(
-                mod_count_ui("count_ui_3", "Obelix DBs")
-              ),
+              # f7Col(
+              #   mod_count_ui("count_ui_3", "Obelix DBs")
+              # ),
               f7Col(
                 mod_count_ui("count_ui_4", "AUA")
               )
             )
-            # h2("Weixin Data", class = "center"),
-            # p(tags$small("Data on China."), class = "center"),
-            # f7Row(
-            #   f7Col(
-            #     mod_count_weixin_ui("count_weixin_ui_1", "Confirmed")
-            #   ),
-            #   f7Col(
-            #     mod_count_weixin_ui("count_weixin_ui_4", "Suspected")
-            #   ),
-            #   f7Col(
-            #     mod_count_weixin_ui("count_weixin_ui_2", "Deaths")
-            #   ),
-            #   f7Col(
-            #     mod_count_weixin_ui("count_weixin_ui_3", "Recovered")
-            #   )
-            # ),
-            # h2("DXY Data", class = "center"),
-            # p(tags$small("Data on China."), class = "center"),
-            # f7Row(
-            #   f7Col(mod_count_weixin_ui("count_dxy_ui_1", "Confirmed")),
-            #   f7Col(mod_count_weixin_ui("count_dxy_ui_3", "Deaths")),
-            #   f7Col(mod_count_weixin_ui("count_dxy_ui_4", "Recovered"))
-            # )
           ),
-          # f7Tab(
-          #   tabName = "John Hopkins",
-          #   icon = f7Icon("waveform_path", old = FALSE),
-          #   active = FALSE,
-          #   swipeable = TRUE,
-          #   h2("John Hopkins Data", class = "center"),
-          #   p(tags$small("Data on China and the rest of the World."), class = "center"),
-          #   f7Row(
-          #     f7Col(
-          #       mod_count_ui("count_ui_1_jhu", "Confirmed"),
-          #     ),
-          #     f7Col(
-          #       mod_count_ui("count_ui_2_jhu", "Deaths")
-          #     ),
-          #     f7Col(
-          #       mod_count_ui("count_ui_3_jhu", "Recovered")
-          #     )
-          #   ),
-          #   mod_new_cases_ui("new_cases"),
-          #   f7Row(
-          #     f7Col(mod_trend_ui("trend_ui_1")),
-          #     f7Col(mod_jhu_death_rate_ui("jhu_death_rate_ui_1"))
-          #   ),
-          #   mod_map_ui("map_ui_1"),
-          #   mod_time_provinces_ui("time_provinces_1"),
-          #   mod_china_others_ui("china_others"),
-          #   mod_world_ui("world_ui_1"),
-          #   f7Row(
-          #     mod_china_ui("table_china", "China"),
-          #     mod_table_world_ui("table_world", "World")
-          #   )
-          # ),
-          # f7Tab(
-          #   tabName = "Weixin",
-          #   icon = f7Icon("waveform", old = FALSE),
-          #   swipeable = TRUE,
-          #   active = FALSE,
-          #   h2("Weixin Data", class = "center"),
-          #   p(tags$small("Data on China."), class = "center"),
-          #   f7Row(
-          #     f7Col(
-          #       mod_count_weixin_ui("count_weixin_ui_1_wx", "Confirmed")
-          #     ),
-          #     f7Col(
-          #       mod_count_weixin_ui("count_weixin_ui_4_wx", "Suspected")
-          #     ),
-          #     f7Col(
-          #       mod_count_weixin_ui("count_weixin_ui_2_wx", "Deaths")
-          #     ),
-          #     f7Col(
-          #       mod_count_weixin_ui("count_weixin_ui_3_wx", "Recovered")
-          #     )
-          #   ),
-          #   f7Row(
-          #     f7Col(mod_china_trend_ui("china_trend_ui_confirm", "Confirmed")),
-          #     f7Col(mod_china_trend_ui("china_trend_ui_suspect", "Suspected"))
-          #   ),
-          #   f7Row(
-          #     f7Col(mod_china_trend_ui("china_trend_ui_dead", "Deaths")),
-          #     f7Col(mod_china_trend_ui("china_trend_ui_heal", "Recovered"))
-          #   ),
-          #   f7Block(
-          #     f7BlockHeader("Data Integrity"),
-          #     p(
-          #       "There is a great discrepancy between total figures for China and",
-          #       "daily numbers reported."
-          #     )
-          #   )
-          # ),
+          f7Tab(
+            tabName = "Recons",
+            icon = f7Icon("waveform_path", old = FALSE),
+            active = FALSE,
+            swipeable = TRUE,
+            h2("Recon Items", class = "center"),
+            p(Sys.info()["user"], class = "center")
+          ),
           f7Tab(
             tabName = "DailyFiles",
             icon = f7Icon("graph_circle", old = FALSE),

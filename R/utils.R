@@ -54,14 +54,14 @@ connect <- function(){
   if(!has_vars)
     stop("Missing variables in config file, see `create_config`", call. = FALSE)
   
-  pool::dbPool(
-    RPostgres::Postgres(),
-    host = config$database$host,
-    user = config$database$user,
-    password = config$database$password,
-    dbname = config$database$name,
-    port = 5432
-  )
+  # pool::dbPool(
+  #   RPostgres::Postgres(),
+  #   host = config$database$host,
+  #   user = config$database$user,
+  #   password = config$database$password,
+  #   dbname = config$database$name,
+  #   port = 5432
+  # )
 }
 
 #' @rdname connect

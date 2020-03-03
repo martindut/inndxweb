@@ -2,9 +2,6 @@
 #' 
 #' Creates a configuration file.
 #' 
-#' @section newsapi:
-#' The latest version requires a newsapi token from \url{https://newsapi.org/}.
-#' 
 #' @rdname config
 #' @export
 create_config <- function(){

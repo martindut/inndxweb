@@ -7,19 +7,39 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports: 
-    shiny,
+    DBI,
+    cli,
+    yaml,
+    pool,
+    httr,
+    xml2,
+    sever,
+    shiny (>= 1.4.0),
     golem,
-    processx,
-    attempt,
-    DT,
+    dplyr,
+    tidyr,
+    purrr,
+    rvest,
+    readr,
+    waiter,
+    tibble,
+    plumber,
+    countup,
+    magrittr,
+    jsonlite,
+    tidyselect,
+    shinyscroll (>= 0.0.2),
+    htmlwidgets,
+    shinyMobile (>= 0.5.0),
     glue,
     htmltools,
+    markdown,
+    rmarkdown,
     pkgload
+Suggests:
+  echarts4r (>= 0.3.0),
+  knitr
 RoxygenNote: 7.0.2
-Suggests: 
-    testthat,
-    knitr,
-    rmarkdown
 VignetteBuilder: knitr
 URL: https://github.com/martindut/inndxweb
 BugReports: https://github.com/martindut/inndxweb/issues
