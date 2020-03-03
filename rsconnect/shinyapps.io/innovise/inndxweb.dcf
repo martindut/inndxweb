@@ -1,0 +1,12 @@
+name: inndxweb
+title: inndxweb
+username:
+account: innovise
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 1893053
+bundleId: 2846004
+url: https://innovise.shinyapps.io/inndxweb/
+when: 1583212178.49674
+asMultiple: FALSE
+asStatic: FALSE

@@ -45,13 +45,16 @@ app_ui <- function() {
             #p(tags$small("Data on China and the rest of the World."), class = "center"),
             f7Row(
               f7Col(
-                mod_count_ui("count_ui_1", "dailyfiles"),
+                mod_count_ui("count_ui_1", "Files Received"),
               ),
               f7Col(
-                mod_count_ui("count_ui_2", "recons")
+                mod_count_ui("count_ui_2", "Recon Items")
               ),
               f7Col(
-                mod_count_ui("count_ui_3", "dbs")
+                mod_count_ui("count_ui_3", "Obelix DBs")
+              ),
+              f7Col(
+                mod_count_ui("count_ui_4", "AUA")
               )
             )
             # h2("Weixin Data", class = "center"),
@@ -156,12 +159,17 @@ app_ui <- function() {
             #p(tags$small("Data on China."), class = "center"),
             waiter::waiter_hide_on_render("count_ui_1-cnt"),
             f7Row(
-              #f7Col(mod_count_weixin_ui("count_dxy_ui_1_dxy", "Confirmed")),
-              #f7Col(mod_count_weixin_ui("count_dxy_ui_3_dxy", "Deaths")),
-              #f7Col(mod_count_weixin_ui("count_dxy_ui_4_dxy", "Recovered"))
+              f7Col(
+                mod_count_ui("count_ui_1_df", "Raw Data"),
+              ),
+              f7Col(
+                mod_count_ui("count_ui_2_df", "Snapshots")
+              ),
+              f7Col(
+                mod_count_ui("count_ui_3_df", "Y")
+              )
             ),
-            #mod_city_map_ui("city_map_1"),
-            #mod_dxy_table_ui("dxy_table_ui_1")
+            mod_dailyfiles_trend_ui("dailyfiles_trend")
           ),
           f7Tab(
             tabName = "News",
