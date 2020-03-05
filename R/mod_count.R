@@ -36,7 +36,6 @@ mod_count_server <- function(input, output, session, df = data.frame(), type_fil
   
   output$cnt <- countup::renderCountup({
     df %>%
-      dplyr::filter(date == max(date)) %>%
       dplyr::filter(type == type_filter) %>%
       dplyr::pull(cases) %>%
       sum(na.rm = TRUE) %>%

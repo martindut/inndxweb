@@ -1,4 +1,5 @@
 ^.*\.Rproj$
+^.Rproj.user$
 ^\.Rproj\.user$
 ^data-raw$
 dev_history.R
@@ -11,3 +12,4 @@ $run_dev.*
 ^Meta$
 ^Dockerfile$
 ^app\.R$
+

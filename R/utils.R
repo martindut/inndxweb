@@ -1,5 +1,8 @@
 # constants
 theme <- "dark"
+
+deaths_pal <- c("#263238", "#455a64", "#607d8b", "#90a4ae", "#cfd8dc") %>% rev()
+
 #' Retrieve Config
 #' 
 #' Retrieves config file.
@@ -69,6 +72,124 @@ connect <- function(){
 disconnect <- function(con = NULL){
   if(!is.null(con))
     pool::poolClose(con)
+}
+
+
+get_data <- function(){
+  
+  cdate <- Sys.Date()
+  idate <- inndxtdr::datetoint(cdate)
+  pbday <- inndxtdr::businessdaylast(cdate)
+  
+  inndxtdr::pins_connect()
+  
+  df_dailyfiles_all <- pins::pin_get(name = paste0("dailyfiles/dailyfile_summary"), board = "azure", cache = FALSE)
+  df_dailyfiles_today <- df_dailyfiles_all %>% dplyr::filter(valuationdate == max(valuationdate))
+  df_dailyfiles_sum <- df_dailyfiles_all %>% dplyr::group_by(valuationdate, type) %>% dplyr::summarise(cases = sum(n, na.rm = TRUE))
+  
+  df_dailyfiles_today_sum <- df_dailyfiles_today %>% 
+    dplyr::rename(
+      type_x = type,
+      type = root,
+      cases = n
+    ) %>%
+    dplyr::group_by(valuationdate, type) %>% 
+    dplyr::summarise(
+      cases = sum(cases, na.rm = TRUE)
+    )
+  
+  
+  df_reconitems <- pins::pin_get(name = paste0("reconitems/recon_summary"), board = "azure", cache = FALSE)
+  
+  df_ur <- pins::pin_get(name = paste0("unrealised/unrealised_summary"), board = "azure", cache = FALSE)
+  
+  obxdbs <- df_ur %>% 
+    dplyr::select(obelixdbname) %>% 
+    dplyr::mutate(obelixdbname = stringr::str_to_lower(obelixdbname)) %>% 
+    dplyr::distinct()
+  
+  ri_dbs_today <- df_reconitems %>% 
+    dplyr::filter(valuationdate == pbday, recon_status != "ReconOK") %>% 
+    dplyr::group_by(obelixdbname) %>% 
+    dplyr::summarise(cases = sum(positions, na.rm = TRUE)) %>% 
+    dplyr::mutate(type = "ri") %>% 
+    dplyr::ungroup() %>% 
+    dplyr::mutate(obelixdbname = stringr::str_to_lower(obelixdbname))      
+  
+  ri_dbs_today <- obxdbs %>%
+    dplyr::left_join(
+      ri_dbs_today, by = "obelixdbname"
+    ) %>% 
+    dplyr::mutate(
+      type = "ri",
+      cases = dplyr::if_else(is.na(cases), 0L, cases)
+    )
+  
+  ur_dbs_today <- df_ur %>% 
+    dplyr::filter(valuationdate == pbday) %>% 
+    dplyr::group_by(obelixdbname) %>% 
+    dplyr::summarise(cases = sum(positions, na.rm = TRUE)) %>% 
+    dplyr::mutate(type = "ur") %>% 
+    dplyr::ungroup() %>% 
+    dplyr::mutate(obelixdbname = stringr::str_to_lower(obelixdbname))
+  
+  ur_dbs_today <- obxdbs %>%
+    dplyr::left_join(
+      ur_dbs_today, by = "obelixdbname"
+    ) %>% 
+    dplyr::mutate(
+      type = "ur",
+      cases = dplyr::if_else(is.na(cases), 0L, cases)
+    )
+  
+  
+  dbs_today <- dplyr::bind_rows(ur_dbs_today, ri_dbs_today) 
+  #%>% tidyr::pivot_wider(names_from = c(type), values_from = c(cases))
+  
+  obxdbs <- obxdbs %>% 
+    dplyr::left_join(
+      dbs_today, by = "obelixdbname"
+    )
+  
+  df_ur_sum <- df_ur %>% 
+    dplyr::group_by(valuationdate, companyname, assetclass) %>% 
+    dplyr::summarise(
+      positions = sum(positions, na.rm = TRUE),
+      aua = sum(marketvalue, na.rm = TRUE)
+    ) %>% 
+    dplyr::ungroup()
+  
+  df1 <- df_dailyfiles_today %>% 
+    dplyr::group_by(valuationdate) %>% 
+    dplyr::summarise(cases = sum(n, na.rm = TRUE)) %>% 
+    dplyr::mutate(type = "dailyfiles")  
+  
+  df2 <- df_reconitems %>% 
+    dplyr::filter(recon_status != "ReconOK", valuationdate == max(valuationdate)) %>% 
+    dplyr::group_by(valuationdate) %>% 
+    dplyr::summarise(cases = sum(positions, na.rm = TRUE)) %>% 
+    dplyr::mutate(type = "recons")  
+  
+  df3 <- df_ur_sum %>% 
+    dplyr::filter(valuationdate == max(valuationdate)) %>% 
+    dplyr::group_by(valuationdate) %>% 
+    dplyr::summarise(cases = sum(positions, na.rm = TRUE)) %>% 
+    dplyr::mutate(type = "positions")  
+  
+  
+  df4 <- df_ur_sum %>% 
+    dplyr::filter(valuationdate == max(valuationdate)) %>% 
+    dplyr::group_by(valuationdate) %>% 
+    dplyr::summarise(cases = sum(aua, na.rm = TRUE)) %>% 
+    dplyr::mutate(type = "marketvalue")  
+  
+  df <- dplyr::bind_rows(df1, df2, df3, df4)
+  
+  data <- list(df = df, df_dailyfiles_all = df_dailyfiles_all, df_dailyfiles_sum = df_dailyfiles_sum, 
+               df_dailyfiles_today_sum = df_dailyfiles_today_sum)
+  
+  return(data)
+  
 }
 
 

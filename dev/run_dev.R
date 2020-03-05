@@ -9,4 +9,10 @@ golem::detach_all_attached()
 golem::document_and_reload()
 
 # Run the application
-inndxweb::run_app()
+run_app()
+
+
+inndxweb::app_sys('app/www')
+
+
+#df <- df_dailyfiles_sum

@@ -45,16 +45,16 @@ mod_dailyfiles_trend_server <- function(input, output, session, df){
 
 mod_dailyfiles_trend_echarts <- function(df){
   df %>% 
-    dplyr::group_by(date) %>%
+    dplyr::group_by(valuationdate) %>%
     dplyr::summarise(cases = sum(n, na.rm = TRUE)) %>%  
     #dplyr::group_by(type) %>% 
-    dplyr::arrange(date) %>% 
+    dplyr::arrange(valuationdate) %>% 
     dplyr::mutate(
       cases_lag = dplyr::lag(cases),
       diff = cases - cases_lag
     ) %>% 
     #dplyr::group_by(type) %>% 
-    echarts4r::e_charts(date) %>% 
+    echarts4r::e_charts(valuationdate) %>% 
     echarts4r::e_bar(diff) %>% 
     # echarts4r::e_color(
     #   c(confirmed_pal[3], deaths_pal[4], recovered_pal[4])

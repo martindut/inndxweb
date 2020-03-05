@@ -43,16 +43,14 @@ app_ui <- function() {
             waiter::waiter_show_on_load(loader, color = "#000"),
             #h2("Home Page", class = "center"),
             #p(tags$small("Data on China and the rest of the World."), class = "center"),
+            #mod_welcome_ui("welcome_ui_1"),
             f7Row(
               f7Col(
-                mod_count_ui("count_ui_1", "Files Received"),
+                mod_count_ui("count_ui_1", "Positions"),
               ),
               f7Col(
                 mod_count_ui("count_ui_2", "Recon Items")
               ),
-              # f7Col(
-              #   mod_count_ui("count_ui_3", "Obelix DBs")
-              # ),
               f7Col(
                 mod_count_ui("count_ui_4", "AUA")
               )
@@ -61,10 +59,11 @@ app_ui <- function() {
           f7Tab(
             tabName = "Recons",
             icon = f7Icon("waveform_path", old = FALSE),
-            active = FALSE,
             swipeable = TRUE,
+            active = FALSE,
             h2("Recon Items", class = "center"),
-            p(Sys.info()["user"], class = "center")
+            #p(Sys.info()["user"], class = "center")
+            
           ),
           f7Tab(
             tabName = "DailyFiles",
@@ -82,10 +81,14 @@ app_ui <- function() {
                 mod_count_ui("count_ui_2_df", "Snapshots")
               ),
               f7Col(
-                mod_count_ui("count_ui_3_df", "Y")
+                mod_count_ui("count_ui_3_df", "Other")
               )
             ),
-            mod_dailyfiles_trend_ui("dailyfiles_trend")
+            f7Row(
+              f7Col(mod_dailyfiles_trend_ui("dailyfiles_trend")),
+              f7Col(mod_dailyfiles_rate_ui("dailyfiles_rate_ui_1"))
+            ),            
+            mod_table_normal_ui("table_dailyfiles", "Daily Files")
           ),
           f7Tab(
             tabName = "News",
@@ -102,6 +105,8 @@ app_ui <- function() {
 
 #' @import shiny
 golem_add_external_resources <- function(){
+  
+  logger::log_info("golem_add_external_resources")
   
   addResourcePath(
     'www', system.file('app/www', package = 'inndxweb')

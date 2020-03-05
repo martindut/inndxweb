@@ -1,22 +1,19 @@
 #' Run the Shiny Application
 #' 
-#' Run the dashboard
+#' @param ... A series of options to be used inside the app.
 #' 
-#' @param data list as returned by \code{\link{crawl_inndxweb}}, otherwise uses database.
-#' @param embed_url Base URL of \code{\link{run_embeds}} app.
-#'
 #' @export
-#' @import shiny
+#' @importFrom shiny shinyApp
 #' @importFrom golem with_golem_options
-#' @importFrom stats coef nls
-#' @importFrom utils packageVersion
-#' 
 #' @import shinyMobile
-run_app <- function(data = NULL, embed_url = "https://shiny.inndx.com/inndxweb-embed") {
-  options(scipen = 99999)
-  
+run_app <- function(
+  ...
+) {
   with_golem_options(
-    app = shinyApp(ui = app_ui, server = app_server), 
-    golem_opts = list(data = data, embed_url = embed_url)
+    app = shinyApp(
+      ui = app_ui, 
+      server = app_server
+    ), 
+    golem_opts = list(...)
   )
 }

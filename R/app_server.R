@@ -23,20 +23,9 @@ app_server <- function(input, output,session) {
     theme = theme
   )
   
-  cdate <- Sys.Date()
-  idate <- inndxtdr::datetoint(cdate)
   
   if(is.null(data)){
-    library(magrittr)
-    inndxtdr::pins_connect()
-
-    df_dailyfiles_all <- pins::pin_get(name = paste0("dailyfiles/dailyfile_summary"), board = "azure", cache = FALSE)
-    
-    df_dailyfiles <- df_dailyfiles_all %>% dplyr::filter(date == as.Date(cdate))
-    
-    df_reconitems <- pins::pin_get(name = paste0("reconitems/recon_summary"), board = "azure", cache = FALSE)
-    
-    df_reconitems <- df_reconitems %>% dplyr::mutate(date = cdate)
+    data <- get_data()
     
   } else {
     
@@ -44,22 +33,28 @@ app_server <- function(input, output,session) {
   
   #df_reconitems %>% dplyr::count(ReconStatus)
   
+  # r <- reactiveValues(
+  #   mod_grid = reactiveValues(playing = "onload", start = FALSE),
+  #   mod_timer = reactiveValues(),
+  #   mod_bomb = reactiveValues(),
+  #   mod_welcome = reactiveValues(firstVisit = TRUE),
+  #   mod_scores = reactiveValues(refresh = NULL),
+  #   click = reactiveValues(counter = 0),
+  #   currentTab = reactiveValues(val = NULL),
+  #   warrior = reactiveValues(mode = FALSE),
+  #   cookies = reactiveValues(),
+  #   device = reactiveValues(info = NULL)
+  # )
+  
+  # welcome module
+  #callModule(mod_welcome_server, "welcome_ui_1", r = r)
+  
+  
   # df load logic
 
-  df1 <- df_dailyfiles %>% dplyr::group_by(date) %>% dplyr::summarise(cases = sum(n, na.rm = TRUE)) %>% dplyr::mutate(type = "dailyfiles")  
-  
-  df2 <- df_reconitems %>% dplyr::filter(ReconStatus != "ReconOK") %>% dplyr::group_by(date) %>% dplyr::summarise(cases = sum(n, na.rm = TRUE)) %>% dplyr::mutate(type = "recons")  
-  
-  #df3 <- df_reconitems %>% dplyr::count(date, ObelixDatabaseName) %>% dplyr::select(-n) %>% dplyr::count(date, name = "cases") %>% dplyr::mutate(type = "dbs")  
-  
-  df4 <- df_reconitems %>% dplyr::group_by(date) %>% dplyr::summarise(cases = sum(HP_Value, na.rm = TRUE)) %>% dplyr::mutate(type = "marketvalue")  
-    
-  df <- dplyr::bind_rows(df1, df2, df3, df4)
-  
-  callModule(mod_count_server, "count_ui_1", df = df, type_filter = "dailyfiles")
-  callModule(mod_count_server, "count_ui_2", df = df, type_filter = "recons")
-  callModule(mod_count_server, "count_ui_3", df = df, type_filter = "dbs")
-  callModule(mod_count_server, "count_ui_4", df = df, type_filter = "marketvalue")
+  callModule(mod_count_server, "count_ui_1", df = data$df, type_filter = "positions")
+  callModule(mod_count_server, "count_ui_2", df = data$df, type_filter = "recons")
+  callModule(mod_count_server, "count_ui_4", df = data$df, type_filter = "marketvalue")
   
   
   # -------------------- Load tab by tab for more responsiveness
@@ -80,28 +75,20 @@ app_server <- function(input, output,session) {
       
       callModule(
         mod_dailyfiles_trend_server, "dailyfiles_trend",
-        df = df_dailyfiles_all
+        df = data$df_dailyfiles_all
       )
       
-      df_dailyfiles_sum <- df_dailyfiles %>% 
-        dplyr::rename(
-          type_x = type,
-          cases = n
-        ) %>% 
-        dplyr::mutate(
-          type = dplyr::case_when(
-            grepl("rawdata_", type_x) ~ "rawdata",
-            grepl("snapshot_", type_x) ~ "snapshot",
-            TRUE ~ "other"
-          )
-        )
+      callModule(
+        mod_dailyfiles_rate_server, "dailyfiles_rate_ui_1",
+        df = data$df_dailyfiles_sum
+      )
       
-      callModule(mod_count_server, "count_ui_1_df", df = df_dailyfiles_sum, type_filter = "rawdata")
-      callModule(mod_count_server, "count_ui_2_df", df = df_dailyfiles_sum, type_filter = "snapshot")
-      callModule(mod_count_server, "count_ui_3_df", df = df_dailyfiles_sum, type_filter = "other")
+      callModule(mod_count_server, "count_ui_1_df", df = data$df_dailyfiles_today_sum, type_filter = "rawdata")
+      callModule(mod_count_server, "count_ui_2_df", df = data$df_dailyfiles_today_sum, type_filter = "snapshot")
+      callModule(mod_count_server, "count_ui_3_df", df = data$df_dailyfiles_today_sum, type_filter = "other")
       
-      # table
-      #callModule(mod_dxy_table_server, "dxy_table_ui_1", df = dxy)
+      #table
+      callModule(mod_table_normal_server, "table_dailyfiles", df = data$df_dailyfiles_today_sum)
       
       w$hide()
       

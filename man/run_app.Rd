@@ -4,13 +4,11 @@
 \alias{run_app}
 \title{Run the Shiny Application}
 \usage{
-run_app(data = NULL, embed_url = "https://shiny.inndx.com/inndxweb-embed")
+run_app(...)
 }
 \arguments{
-\item{data}{list as returned by \code{\link{crawl_inndxweb}}, otherwise uses database.}
-
-\item{embed_url}{Base URL of \code{\link{run_embeds}} app.}
+\item{...}{A series of options to be used inside the app.}
 }
 \description{
-Run the dashboard
+Run the Shiny Application
 }

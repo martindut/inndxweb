@@ -1,45 +1,49 @@
 Package: inndxweb
 Title: Inndx Web
 Version: 0.0.0.9000
-Authors@R: person('Martin', 'du Toit', email = 'martin@inndx.net', role = c('cre', 'aut'))
+Authors@R: 
+    person(given = "Martin",
+           family = "du Toit",
+           role = c("cre", "aut"),
+           email = "martin@inndx.net")
 Description: Inndx Web functions.
 License: MIT + file LICENSE
-Encoding: UTF-8
-LazyData: true
-Imports: 
-    DBI,
-    cli,
-    yaml,
-    pool,
-    httr,
-    xml2,
-    sever,
-    shiny (>= 1.4.0),
-    golem,
-    dplyr,
-    tidyr,
-    purrr,
-    rvest,
-    readr,
-    waiter,
-    tibble,
-    plumber,
-    countup,
-    magrittr,
-    jsonlite,
-    tidyselect,
-    shinyscroll (>= 0.0.2),
-    htmlwidgets,
-    shinyMobile (>= 0.5.0),
-    glue,
-    htmltools,
-    markdown,
-    rmarkdown,
-    pkgload
-Suggests:
-  echarts4r (>= 0.3.0),
-  knitr
-RoxygenNote: 7.0.2
-VignetteBuilder: knitr
 URL: https://github.com/martindut/inndxweb
 BugReports: https://github.com/martindut/inndxweb/issues
+Imports: 
+    cli,
+    config,
+    countup,
+    DBI,
+    dplyr,
+    echarts4r (>= 0.3.0),
+    glue,
+    golem,
+    htmltools,
+    htmlwidgets,
+    inndxtdr,
+    magrittr,
+    markdown,
+    pins,
+    pool,
+    purrr,
+    rmarkdown,
+    sever,
+    shiny (>= 1.4.0),
+    shinyjs,
+    shinyMobile (>= 0.5.0),
+    shinyscroll (>= 0.0.2),
+    stats,
+    tidyr,
+    tidyselect,
+    utils,
+    waiter,
+    yaml
+Suggests:
+    knitr,
+    testthat
+VignetteBuilder: 
+    knitr
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.0.2
