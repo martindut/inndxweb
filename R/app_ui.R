@@ -106,10 +106,10 @@ app_ui <- function() {
 #' @import shiny
 golem_add_external_resources <- function(){
   
-  logger::log_info("golem_add_external_resources")
+  #logger::log_info("golem_add_external_resources")
   
   addResourcePath(
-    'www', system.file('app/www', package = 'inndxweb')
+    'www', system.file('app', package = 'inndxweb')
   )
   
   tags$head(
@@ -119,43 +119,44 @@ golem_add_external_resources <- function(){
     tags$link(rel="stylesheet", type="text/css", href="www/style.css"),
     tags$script(src="www/copy.js"),
     sever::use_sever(),
-    shinyscroll::use_shinyscroll(),
-    HTML(
-      "
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src='https://www.googletagmanager.com/gtag/js?id=UA-74544116-1'></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-74544116-1');
-</script>"
-    ),
-    tags$meta(property="og:title", content="Coronavirus Tracker"),
-    tags$meta(property="og:type", content="article"),
-    tags$meta(property="og:url", content="https://shiny.john-coene.com/coronavirus"),
-    tags$meta(property="og:image", content="https://shiny.john-coene.com/coronavirus/www/coronavirus.png"),
-    tags$meta(property="og:description", content="A Coronavirus tracker app using John Hopkins and Weixin Data"),
-    tags$meta(name="twitter:card", content="summary_large_image"),
-    tags$meta(name="twitter:site", content="@jdatap"),
-    tags$meta(name="twitter:title", content="Coronavirus Tracker"),
-    tags$meta(name="twitter:description", content="A Coronavirus tracker app using John Hopkins and Weixin Data"),
-    tags$meta(name="twitter:image:src", content="https://shiny.john-coene.com/coronavirus/www/coronavirus.png"),
-    shiny::tags$link(rel = "apple-touch-icon", href = "www/icons/apple-touch-icon.png"),
-    
-    # pwa materials (this is not a permanent fix). shinyMobile will
-    # handle this better soon!
-    tags$link(rel = "manifest", href = "www/manifest.json"),
-    tags$meta(name="theme-color", content="#000000")
-    
-    # Launch screen for IOS
-    # Below is just an example in case you would like to try
-    # This is done by default for Android but not iOS :(
-    # Also you would have to handle as many devices as possible ...
-    # shiny::tags$link(href = "www/splashscreens/iphone5_splash.png", media = "(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)", rel = "apple-touch-startup-image")
-    
-  )
+    shinyscroll::use_shinyscroll()
+    )#,
+#     HTML(
+#       "
+# <!-- Global site tag (gtag.js) - Google Analytics -->
+# <script async src='https://www.googletagmanager.com/gtag/js?id=UA-74544116-1'></script>
+# <script>
+#   window.dataLayer = window.dataLayer || [];
+#   function gtag(){dataLayer.push(arguments);}
+#   gtag('js', new Date());
+# 
+#   gtag('config', 'UA-74544116-1');
+# </script>"
+#     ),
+#     tags$meta(property="og:title", content="Coronavirus Tracker"),
+#     tags$meta(property="og:type", content="article"),
+#     tags$meta(property="og:url", content="https://shiny.john-coene.com/coronavirus"),
+#     tags$meta(property="og:image", content="https://shiny.john-coene.com/coronavirus/www/coronavirus.png"),
+#     tags$meta(property="og:description", content="A Coronavirus tracker app using John Hopkins and Weixin Data"),
+#     tags$meta(name="twitter:card", content="summary_large_image"),
+#     tags$meta(name="twitter:site", content="@jdatap"),
+#     tags$meta(name="twitter:title", content="Coronavirus Tracker"),
+#     tags$meta(name="twitter:description", content="A Coronavirus tracker app using John Hopkins and Weixin Data"),
+#     tags$meta(name="twitter:image:src", content="https://shiny.john-coene.com/coronavirus/www/coronavirus.png"),
+#     shiny::tags$link(rel = "apple-touch-icon", href = "www/icons/apple-touch-icon.png"),
+#     
+#     # pwa materials (this is not a permanent fix). shinyMobile will
+#     # handle this better soon!
+#     tags$link(rel = "manifest", href = "www/manifest.json"),
+#     tags$meta(name="theme-color", content="#000000")
+#     
+#     # Launch screen for IOS
+#     # Below is just an example in case you would like to try
+#     # This is done by default for Android but not iOS :(
+#     # Also you would have to handle as many devices as possible ...
+#     # shiny::tags$link(href = "www/splashscreens/iphone5_splash.png", media = "(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)", rel = "apple-touch-startup-image")
+#     
+#   )
 }
 
 loader <- tagList(

@@ -2,3 +2,7 @@
 #inndxweb:::app_sys('app/www')
 # "/usr/local/lib/R/site-library/inndxweb/app/www"
 # "/usr/local/lib/R/site-library/inndxweb/app/www"
+
+
+system.file('app/www', package = 'inndxweb')
+# "/usr/local/lib/R/site-library/inndxweb/app/www

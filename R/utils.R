@@ -83,7 +83,12 @@ get_data <- function(){
   
   inndxtdr::pins_connect()
   
-  df_dailyfiles_all <- pins::pin_get(name = paste0("dailyfiles/dailyfile_summary"), board = "azure", cache = FALSE)
+  df_dailyfiles_all <- pins::pin_get(name = paste0("dailyfiles/dailyfile_summary"), board = "azure")
+  df_reconitems <- pins::pin_get(name = paste0("reconitems/recon_summary"), board = "azure")
+  df_ur <- pins::pin_get(name = paste0("unrealised/unrealised_summary"), board = "azure")
+  
+  
+  
   df_dailyfiles_today <- df_dailyfiles_all %>% dplyr::filter(valuationdate == max(valuationdate))
   df_dailyfiles_sum <- df_dailyfiles_all %>% dplyr::group_by(valuationdate, type) %>% dplyr::summarise(cases = sum(n, na.rm = TRUE))
   
@@ -98,10 +103,6 @@ get_data <- function(){
       cases = sum(cases, na.rm = TRUE)
     )
   
-  
-  df_reconitems <- pins::pin_get(name = paste0("reconitems/recon_summary"), board = "azure", cache = FALSE)
-  
-  df_ur <- pins::pin_get(name = paste0("unrealised/unrealised_summary"), board = "azure", cache = FALSE)
   
   obxdbs <- df_ur %>% 
     dplyr::select(obelixdbname) %>% 
